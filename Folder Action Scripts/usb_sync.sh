@@ -27,6 +27,7 @@ endif
 
 rsync -aq --delete $folderToBackup $backupTo
 
+osascript display_dialog.scpt sync klaar
 # Optionally, once the rsync is done, unmount the drive.
 
 #hdiutil detach $backupVolume
