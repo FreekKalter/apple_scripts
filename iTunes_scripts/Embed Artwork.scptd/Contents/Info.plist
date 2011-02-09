@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>com.dougscripts.embedart</string>
+	<key>CFBundleName</key>
+	<string>Embed Artwork</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.0</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2009, Doug Adams</string>
+	<key>WindowState</key>
+	<dict>
+		<key>name</key>
+		<string>ScriptWindowState</string>
+		<key>positionOfDivider</key>
+		<real>421</real>
+		<key>savedFrame</key>
+		<string>86 352 752 607 0 0 1680 1028 </string>
+		<key>selectedTabView</key>
+		<string>description</string>
+	</dict>
+</dict>
+</plist>
