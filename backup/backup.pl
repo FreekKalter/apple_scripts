@@ -6,7 +6,17 @@ use warnings;
 use Sys::Syslog;
 
 openlog("backup: ", "pid", "LOG_LOCAL6" );
-sleep(30); #als de laptop uit slaapstand komt wacht dertig seconden om airport verbinding te laten maken anders gaat netwerk check fout
+my $network ='';
+my $restore = '';
+my $timeout = 0;
+if(!GetOptions("network=s" => \$network, "restore" => \$restore, "timeout:i" => \$timeout)){
+	print "Usage backup.pl [--restore, --network networkname]\n";
+	die;			
+}
+if($timeout){
+	print "timeout: $timeout\n";
+	sleep($timeout);
+}
 
 my $client = "/Users/freekkalter/";
 my $server="fkalter\@192.168.2.4:/home/fkalter/macBackup/";
@@ -17,27 +27,24 @@ my $sshkey="/Users/freekkalter/Library/Scripts/backup/id_rsa";
 my $current_network = $1;
 
 my $rsync = "/usr/local/bin/rsync";
-my $backup_options = "--verbose --stats --compress --recursive --times --perms --links --delete --exclude-from=$excludes --delete-excluded --human-readable";
-my $restore_options = " --verbose --stats --compress --recursive --times --perms --links --human-readable";
+my $options = "--verbose --ignore-errors --stats --compress --recursive --times --perms --links --human-readable";
+my $backup_options =  "$options --delete --exclude-from=$excludes --delete-excluded";
+my $restore_options = "$options";
 
-my $network ='';
-my $restore = '';
-if(GetOptions("network=s" => \$network,
-				"restore" => \$restore)){
-	if($network){
-		if($network eq $current_network){
-			if($restore){
-				call_it("$rsync -e \"ssh -i $sshkey\" $restore_options $server $client", "restore");
-			}else{
-				call_it("$rsync -e \"ssh -i $sshkey\" $backup_options $client $server","backup");
-			}
-		}else{syslog("notice", "Not on $network\n");}
-	}else{if($restore){
-		call_it("$rsync -e \"ssh -i $sshkey\" $restore_options $server_external $client", "restore");
-	}else{
-		call_it("$rsync -e \"ssh -i $sshkey\" $backup_options $client $server_external", "backup");
-	}}				
-}else{print "Usage backup.pl [--restore, --network networkname]\n";}
+if($network){
+	if($network eq $current_network){
+		if($restore){
+			call_it("$rsync -e \"ssh -i $sshkey\" $restore_options $server $client", "restore");
+		}else{
+			call_it("$rsync -e \"ssh -i $sshkey\" $backup_options $client $server","backup");
+		}
+	}else{syslog("notice", "Not on $network\n");}
+}else{if($restore){
+	call_it("$rsync -e \"ssh -i $sshkey\" $restore_options $server_external $client", "restore");
+}else{
+	call_it("$rsync -e \"ssh -i $sshkey\" $backup_options $client $server_external", "backup");
+}}				
+
 closelog();
 
 sub call_it{
