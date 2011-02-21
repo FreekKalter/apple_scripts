@@ -6,15 +6,14 @@ use warnings;
 use Sys::Syslog;
 
 openlog("backup: ", "pid", "LOG_LOCAL6" );
+
 my $network ='';
 my $restore = '';
 my $timeout = 0;
 if(!GetOptions("network=s" => \$network, "restore" => \$restore, "timeout:i" => \$timeout)){
-	print "Usage backup.pl [--restore, --network networkname]\n";
-	die;			
+	die "Usage backup.pl [--restore, --network networkname --timeout time]\n";			
 }
 if($timeout){
-	print "timeout: $timeout\n";
 	sleep($timeout);
 }
 
