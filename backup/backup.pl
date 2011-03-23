@@ -15,7 +15,7 @@ if(!GetOptions("network=s" => \$network, "restore" => \$restore, "timeout:i" => 
 			
 }
 if($restore && $incremental){
-	die "Usage backup.pl [--restore, --network networkname --timeout time]\n";	
+	die "Usage backup.pl [--restore --incremental --network networkname --timeout time]\n";	
 }
 if($timeout){
 	sleep($timeout);
@@ -39,10 +39,7 @@ my $options = "--verbose --ignore-errors --stats --compress --recursive --times 
 my $backup_options =  "$options --delete --exclude-from=$excludes --delete-excluded";
 my $restore_options = "$options";
 
-my $incremental_command = "rm -rf ${folder_root}macBackup.3 && \\
-									mv ${folder_root}macBackup.2 ${folder_root}macBackup.3 && \\
-									mv ${folder_root}macBackup.1 ${folder_root}macBackup.2 && \\
-									cp -al ${folder_root}macBackup.0 ${folder_root}macBackup.1";
+my $incremental_command = "/home/fkalter/scripts/incremental_prepare.pl $folder_root macBackup";
 
 if($network){
 	if($network eq $current_network){
