@@ -47,7 +47,7 @@ if($network){
 			call_it("$rsync -e \"ssh -i $sshkey\" $restore_options $server:$folder $client", "restore");
 		}else{
 			if($incremental){
-				 print `ssh $server '$incremental_command'`;
+				 print `ssh $server '$incremental_command'`; #ssh into server and prepare incremental backup
 			}
 			call_it("$rsync -e \"ssh -i $sshkey\" $backup_options $client $server:$folder","backup");			
 		}
@@ -57,7 +57,7 @@ if($network){
 	call_it("$rsync -e \"ssh -i $sshkey\" $restore_options $server_external:$folder $client", "restore");
 }else{
 	if($incremental){
-		 print `ssh $server_external '$incremental_command'`;
+		 print `ssh $server_external '$incremental_command'`; #ssh into server and prepare incremental backup
 	}
 	call_it("$rsync -e \"ssh -i $sshkey\" $backup_options $client $server_external:$folder", "backup");
 }}				
