@@ -3,9 +3,11 @@ Library/Application Support
 Library/Voices
 sabnzb
 Downloads/incomplete
+Downloads/complete
 .DS_Store
 .Trash
-Documents/Azureus*
+Documents/Vuze*
 NNTPGrab
 Documents/Parallels
 .cpan
+Dropbox
