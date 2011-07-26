@@ -10,12 +10,19 @@ openlog("backup: ", "pid", "LOG_LOCAL6" );
 my $network ='';
 my $restore = '';
 my $incremental = '';
+my $help = '';
 my $timeout = 0;
-if(!GetOptions("network=s" => \$network, "restore" => \$restore, "timeout:i" => \$timeout, "incremental" => \$incremental)){
+if(!GetOptions("help" => \$help, "network=s" => \$network, "restore" => \$restore, "timeout:i" => \$timeout, "incremental" => \$incremental)){
 			
 }
-if($restore && $incremental){
-	die "Usage backup.pl [--restore --incremental --network networkname --timeout time]\n";	
+if(($restore && $incremental)||($help)){
+	die "Usage backup.pl [Options]\
+           --network:   Check if your on local network, so it uses internal ip-adresses.\
+           --restore:   Put a backup back, not to be used in conjuction with incremental \
+           --timeout:   Number of seconds before checked wich network your on, this is for when your computer comes out of sleep\
+                        it gives your network card some time to init and logon to the network.\
+           --incremental: This does a incremental backup, it shifts everything on the remote server by calling \$incremental_command.\
+           --help       Displays this message.";	
 }
 if($timeout){
 	sleep($timeout);
